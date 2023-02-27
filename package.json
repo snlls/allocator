@@ -1,0 +1,7 @@
+{
+    "name": "allocator",
+    "version": "0.0.1",
+    "repo": "snlls/allocator",
+    "license": "",
+    "src": ["allocator.c", "allocator.h", "Makefile"]
+}
