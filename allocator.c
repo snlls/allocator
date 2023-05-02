@@ -15,13 +15,17 @@ typedef struct adata {
 static adata global_adata = {0};
 allocator *allocator_global = &global_adata;
 
+void allocator_fail_fn()
+{
+	abort();
+}
 void allocator_init(allocator *a)
 {
 	assert(a);
 	memset(a, 0, sizeof(*a));
 }
 
-void allocator_uninit(allocator *a)
+void allocator_deinit(allocator *a)
 {
 	assert(a);	
 	adata *tmp = a;
@@ -70,15 +74,23 @@ void *allocator_alloc(allocator *a, size_t size)
 	while(tmp) {
 		if(!tmp->data) {
 			tmp->data = malloc(size);
-			assert(tmp->data);
+			if(!tmp->data)
+				allocator_fail();
+			
 			return tmp->data;
 		}
 		if(!tmp->next) {
 			tmp->next = malloc(sizeof(adata));
-			assert(tmp->next);
+			if(!tmp->next) {
+				allocator_fail();
+				return 0;
+			}
 			tmp->next->next = 0;
 			tmp->next->data = malloc(size);
-			assert(tmp->next->data);
+			if(!tmp->next->data) {
+				allocator_fail();
+				return 0;
+			}
 			return tmp->next->data;
 		}
 		tmp = tmp->next;

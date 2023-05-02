@@ -4,8 +4,11 @@
 
 typedef void allocator;
 
+void allocator_fail_fn();
+void allocator_fail() __attribute__ ((weak, alias ("allocator_fail_fn")));
+
 void allocator_init(allocator *a);
-void allocator_uninit(allocator *a);
+void allocator_denit(allocator *a);
 
 /** @brief print debug info to buffer */
 char *allocator_str(allocator *a, char *buf, int buf_len);
