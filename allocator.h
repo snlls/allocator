@@ -4,8 +4,7 @@
 
 typedef void allocator;
 
-void allocator_fail_fn();
-void allocator_fail() __attribute__ ((weak, alias ("allocator_fail_fn")));
+void allocator_fail() __attribute__((weak));	
 
 void allocator_init(allocator *a);
 void allocator_denit(allocator *a);

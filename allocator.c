@@ -15,7 +15,7 @@ typedef struct adata {
 static adata global_adata = {0};
 allocator *allocator_global = &global_adata;
 
-void allocator_fail_fn()
+void allocator_fail()
 {
 	abort();
 }
